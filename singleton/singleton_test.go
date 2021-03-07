@@ -9,7 +9,8 @@ import (
 )
 
 func TestSingleton(t *testing.T) {
-	// Instance()以外で生成できない singleton.singleton{}
+	// Instance()以外で生成できない
+	// => singleton.singleton{} は不可能
 	s1 := singleton.Instance()
 	s2 := singleton.Instance()
 	s3 := singleton.Instance()

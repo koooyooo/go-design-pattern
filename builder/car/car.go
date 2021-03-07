@@ -2,13 +2,12 @@ package car
 
 import "bytes"
 
-type (
-	car struct {
-		engine Engine
-		handle Handle
-		tires  []Tire
-	}
-)
+// car は車を表現し`Engine`,`Handle`,`Tire`で構成される
+type car struct {
+	engine Engine
+	handle Handle
+	tires  []Tire
+}
 
 func (c car) Drive() string {
 	var s bytes.Buffer
