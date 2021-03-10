@@ -1,11 +1,12 @@
 package singleton
 
-// 唯一のインスタンスを返却
+// Singletonの取得
 func Instance() *singleton {
+	// 唯一のインスタンスの参照を返却
 	return instance
 }
 
-// 唯一のインスタンス
+// 唯一のインスタンスを用意
 var instance = &singleton{
 	Value: "Hello",
 }
