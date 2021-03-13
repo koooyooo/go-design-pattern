@@ -1,7 +1,7 @@
 // Builder は複雑なインスタンスの生成を隠蔽するパターンです。
 // Build プロセスにおける調停役(Mediator)であり、フロント(Facade)でもあります。
 // ある程度の要件を職人に伝えれば、職人が製品を作ってくれる、その職人がBuilderとなります。
-package builder
+package builder_pattern
 
 import (
 	"testing"
