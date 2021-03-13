@@ -26,3 +26,9 @@ type memoryStorage struct{}
 func (s memoryStorage) Store(data []byte) error {
 	return nil
 }
+
+type NopeStorage struct{}
+
+func (s NopeStorage) Store(data []byte) error {
+	return nil
+}
