@@ -22,7 +22,7 @@
 // - 外部からインスタンスを生成できなくする
 // - Javaではコンストラクタを`private`にすることで、Goではstructを(小文字で開始し)`package private`にすることで実現する
 // - インスタンス取得用の関数を別途用意し、そこでは常に同じインスタンスを返す様に実装する
-package main
+package singleton_pattern
 
 import (
 	"testing"

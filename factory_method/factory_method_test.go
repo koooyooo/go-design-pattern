@@ -14,7 +14,7 @@
 // [実例・類似例]
 // - DIコンテナは Factoryの完成形と言えるべきものです。単純な隠蔽だけでなく、関連を完成させ、Factory自体も見せないといった付加価値まで提供しています。
 // - Singletonの getInstance() はインスタンスの実体ではなくインスタンスの生成を隠蔽しています。目的は異なりますが作りは似ています。
-package factory_method
+package factory_method_pattern
 
 import (
 	"testing"
