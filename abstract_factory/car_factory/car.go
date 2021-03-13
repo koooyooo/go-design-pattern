@@ -1,6 +1,9 @@
 package car_factory
 
-import "bytes"
+import (
+	"errors"
+	"strings"
+)
 
 type (
 	// body は車を維持します
@@ -28,16 +31,18 @@ type (
 
 // Run は車を実際に走らせます
 func (c Car) Run() (string, error) {
-	var runMsg bytes.Buffer
-	runMsg.WriteString(c.body.sustain())
-	runMsg.WriteString(",")
-	runMsg.WriteString(c.engine.start())
-	runMsg.WriteString(",")
-	for i, t := range c.tires {
-		if i != 0 {
-			runMsg.WriteString(",")
-		}
-		runMsg.WriteString(t.grip())
+	if c.body == nil {
+		return "", errors.New("error: no body")
 	}
-	return runMsg.String(), nil
+	if c.engine == nil {
+		return "", errors.New("error: no engine")
+	}
+	if len(c.tires) != 4 {
+		return "", errors.New("error: non 4 tires")
+	}
+	msgArray := []string{c.body.sustain(), c.engine.start()}
+	for _, t := range c.tires {
+		msgArray = append(msgArray, t.grip())
+	}
+	return strings.Join(msgArray, ","), nil
 }
