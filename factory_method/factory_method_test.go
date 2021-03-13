@@ -10,6 +10,10 @@
 // しかし、インターフェイスを利用するにはクラスを生成しインターフェイス型に代入しなければなりません。
 // この生成・代入の瞬間を利用側のクラスが知ってしまうと、疎結合が崩れ、クラスの修正や再テストが必要になってしまいます。
 // そこで、利用側のクラスは FactoryMethodにこの仕事を依頼します。 そうすることで、利用側は実現するクラスに対して何も知らずに済むのです。
+//
+// [実例・類似例]
+// - DIコンテナは Factoryの完成形と言えるべきものです。単純な隠蔽だけでなく、関連を完成させ、Factory自体も見せないといった付加価値まで提供しています。
+// - Singletonの getInstance() はインスタンスの実体ではなくインスタンスの生成を隠蔽しています。目的は異なりますが作りは似ています。
 package factory_method
 
 import (
@@ -21,17 +25,19 @@ import (
 )
 
 // FactoryMethodを適用した場合
+// Storageの実体を知ることなく利用できる (疎結合)
 func TestFactoryMethod(t *testing.T) {
-	// Factory経由で Storageを取得するがその実体は知らない（疎結合）
+	// Factory経由で実体を隠蔽
 	s := factory.GetStorage()
 	err := s.Store([]byte("Hello"))
 	assert.NoError(t, err)
 }
 
 // FactoryMethodを適用しない場合
+// Storageの実体を知ってしまう (密結合)
 func TestNonFactory(t *testing.T) {
 	var s factory.Storage
-	// NopeStorageが実体だとバレてしまう (密結合)
+	// 生成・代入プロセスで実体と密結合
 	s = &factory.NopeStorage{}
 	err := s.Store([]byte("Hello"))
 	assert.NoError(t, err)
