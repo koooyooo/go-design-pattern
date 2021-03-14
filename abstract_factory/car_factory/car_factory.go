@@ -18,17 +18,17 @@ type (
 
 // CreateCar は車を生成します
 func (f AbstractCarFactory) CreateCar() (*Car, error) {
-	// bodyを作成し
+	// bodyを用意
 	b, err := f.createBody()
 	if err != nil {
 		return nil, err
 	}
-	// engineを載せ
+	// engineを搭載
 	e, err := f.createEngine()
 	if err != nil {
 		return nil, err
 	}
-	// tireを搭載します
+	// tireを取り付け
 	var tires []tire
 	for i := 0; i < 4; i++ {
 		t, err := f.createTire()
