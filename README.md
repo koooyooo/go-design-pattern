@@ -11,7 +11,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Factory Method | ○ | |
 | | ^ | Builder | ○ | |
 | | ^ | Singleton | ○ | |
-| | ^ | Prototype | | |
+| | ^ | Prototype | ○ | |
 | | Structural |Adapter | | |
 | | ^ | Bridge  | | |
 | | ^ | Composite| | |
