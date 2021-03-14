@@ -19,6 +19,8 @@ func (sb sportsTire) grip() string {
 }
 
 func NewSportsCarFactory() (*AbstractCarFactory, error) {
+	// 抽象の工場に実装を注入します。
+	// 本来は継承を用いてMethodのOverrideで差分実装しますが、Golangには継承が無いので関数を注入し委譲することでOverrideします。
 	return &AbstractCarFactory{
 		createBody: func() (body, error) {
 			return &sportsBody{}, nil
