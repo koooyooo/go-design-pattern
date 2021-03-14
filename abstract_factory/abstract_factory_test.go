@@ -39,9 +39,9 @@ func TestAbstractFactorySports(t *testing.T) {
 	assert.NoError(t, err)
 
 	// スポーツカーを走らせ、出力が正しいかを確認
-	runMsg, err := car.Run()
+	runLog, err := car.Run()
 	assert.NoError(t, err)
-	assert.Equal(t, "sustain(sports),start(sports),grip(sports),grip(sports),grip(sports),grip(sports)", runMsg)
+	assert.Equal(t, "sustain(sports),start(sports),grip(sports),grip(sports),grip(sports),grip(sports)", runLog)
 }
 
 // ファミリーカーの工場による実装です。
@@ -57,7 +57,7 @@ func TestAbstractFactoryFamily(t *testing.T) {
 	assert.NoError(t, err)
 
 	// ファミリーカーを走らせ、出力が正しいかを確認
-	runMsg, err := car.Run()
+	runLog, err := car.Run()
 	assert.NoError(t, err)
-	assert.Equal(t, "sustain(family),start(family),grip(family),grip(family),grip(family),grip(family)", runMsg)
+	assert.Equal(t, "sustain(family),start(family),grip(family),grip(family),grip(family),grip(family)", runLog)
 }
