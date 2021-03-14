@@ -18,7 +18,6 @@ func (sb familyTire) grip() string {
 	return "grip(family)"
 }
 
-// FamilyCarFactory
 func NewFamilyCarFactory() (*AbstractCarFactory, error) {
 	return &AbstractCarFactory{
 		createBody: func() (body, error) {
