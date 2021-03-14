@@ -3,25 +3,36 @@ package pc
 import "fmt"
 
 type (
+	// pcCase はPCのケースです。外部からはPCとして認識されます。
 	pcCase struct {
 		isOpen          bool
 		motherBoard     *motherBoard
 		powerSupplyUnit *powerSupplyUnit
 		ssd             *ssd
 	}
+
+	// powerSupplyUnit は電源ユニットです。
 	powerSupplyUnit struct {
 		powerCapacity int
 	}
+
+	// motherBord はマザーボードです。
 	motherBoard struct {
 		*cpu
 		*memory
 	}
+
+	// cpu はCPUです。コア数を持ちます。
 	cpu struct {
 		core int
 	}
+
+	// memory はメモリです。
 	memory struct {
 		storageGb int
 	}
+
+	// ssd はSSDです。
 	ssd struct {
 		storageGB int
 	}
