@@ -54,24 +54,30 @@ func (c pcCase) Spec() string {
 
 // removeCPUCover はCPUカバーを開けます
 func (m *motherBoard) removeCPUCover() {
+	// Do Something
 }
 
 // openCPUSocket はCPUソケットを開けます
 func (m *motherBoard) openCPUSocket() {
+	// Do Something
 }
 
 // closeCPUSocket はCPUソケットを閉じます
 func (m *motherBoard) closeCPUSocket() {
+	// Do Something
 }
 
 // setCPUCooler はCPUクーラーを設置します
 func (m *motherBoard) setCPUCooler() {
+	// Do Something
 }
 
 // openMemorySlot はメモリースロットを開けます
 func (m *motherBoard) openMemorySlot() {
+	// Do Something
 }
 
 // closeMemorySlot はメモリースロットを閉じます
 func (m *motherBoard) closeMemorySlot() {
+	// Do Something
 }
