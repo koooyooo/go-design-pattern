@@ -35,5 +35,6 @@ func (a Adapter) Receive(r *http.Request) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	defer r.Body.Close()
 	return a.Legacy.Receive(r.Method, r.URL.Path, r.Header, b)
 }
