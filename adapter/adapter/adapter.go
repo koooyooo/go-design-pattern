@@ -18,13 +18,9 @@ type (
 )
 
 // レガシーAPI実装
-func NewLegacyAPI() LegacyAPI {
-	return &legacyAPIImpl{}
-}
+type LegacyAPIImpl struct{}
 
-type legacyAPIImpl struct{}
-
-func (l legacyAPIImpl) Receive(method, url string, header map[string][]string, body []byte) (string, error) {
+func (l LegacyAPIImpl) Receive(method, url string, header map[string][]string, body []byte) (string, error) {
 	return fmt.Sprintf("legacy: %s %s", method, url), nil
 }
 

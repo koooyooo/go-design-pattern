@@ -18,7 +18,7 @@ import (
 
 func TestAdapter(t *testing.T) {
 	// 実体はLegacyAPI
-	l := adapter.NewLegacyAPI()
+	var l adapter.LegacyAPI = &adapter.LegacyAPIImpl{}
 
 	// Adapterを介することでModernAPIとして適用可能
 	var m adapter.ModernAPI = adapter.Adapter{
