@@ -25,14 +25,19 @@ func TestAdapter(t *testing.T) {
 	// 実体はLegacyAPI
 	var l adapter.LegacyAPI = &adapter.LegacyAPIImpl{}
 
-	// Adapterを介することでModernAPIとして適用可能
+	// 本来Legacyな APIとして稼働しているが
+	s, err := l.Receive("get", "/path", nil, nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "legacy: get /path", s)
+
+	// Adapterを介することでModernAPIに代入し
 	var m adapter.ModernAPI = adapter.Adapter{
 		Legacy: l,
 	}
 
-	// 機能的にもLegacyAPIを活用することで問題なく稼働
+	// 機能仕様も満たすことが可能 (内部でLegacyAPIの実装に委譲)
 	r := httptest.NewRequest("get", "http://sample.com/path", nil)
-	s, err := m.Receive(r)
+	s, err = m.Receive(r)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "legacy: get /path", s)
