@@ -22,18 +22,18 @@ type (
 // レガシーAPI実装
 type LegacyAPIImpl struct{}
 
+// Receive はレガシーAPIの実装です
 func (l LegacyAPIImpl) Receive(method, url string, header map[string][]string, body []byte) (string, error) {
 	return fmt.Sprintf("legacy: %s %s", method, url), nil
 }
 
-// Adapter定義
-// 委譲対象の LegacyAPIを内包している点が特徴
+// Adapter はアダプタの実装です。
 type Adapter struct {
+	// 委譲対象のLegacyAPIを保持
 	Legacy LegacyAPI
 }
 
-// 変換処理の実装
-// LegacyAPIを上手に活用して機能を実現
+// Receive は変換処理の実装でありモダンAPIのインターフェイスも満足させます。 LegacyAPIを上手に活用して機能を実現します。
 func (a Adapter) Receive(r *http.Request) (string, error) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
