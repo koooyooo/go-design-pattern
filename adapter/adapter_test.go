@@ -36,9 +36,7 @@ func TestAdapter(t *testing.T) {
 	}
 
 	// 機能仕様も満たすことが可能 (内部でLegacyAPIの実装に委譲)
-	r := httptest.NewRequest("get", "http://sample.com/path", nil)
-	s, err = m.Receive(r)
-
+	s, err = m.Receive(httptest.NewRequest("get", "http://sample.com/path", nil))
 	assert.NoError(t, err)
 	assert.Equal(t, "legacy: get /path", s)
 }
