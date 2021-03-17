@@ -2,14 +2,12 @@ package bridge
 
 import (
 	"encoding/json"
-	"encoding/xml"
 
 	"gopkg.in/yaml.v3"
 )
 
 var FormatJSON = &writingFormatJSON{}
 var FormatYAML = &writingFormatYAML{}
-var FormatXML = &writingFormatXML{}
 
 type (
 	WritingFormat interface {
@@ -18,7 +16,6 @@ type (
 
 	writingFormatJSON struct{}
 	writingFormatYAML struct{}
-	writingFormatXML  struct{}
 )
 
 func (wj writingFormatJSON) Marshal(v interface{}) ([]byte, error) {
@@ -27,8 +24,4 @@ func (wj writingFormatJSON) Marshal(v interface{}) ([]byte, error) {
 
 func (wy writingFormatYAML) Marshal(v interface{}) ([]byte, error) {
 	return yaml.Marshal(v)
-}
-
-func (wx writingFormatXML) Marshal(v interface{}) ([]byte, error) {
-	return xml.Marshal(v)
 }
