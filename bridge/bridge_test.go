@@ -37,62 +37,70 @@ var human = bridge.Human{
 	},
 }
 
-func TestBridgeStdoutJSON(t *testing.T) {
-	// 標準出力に JSONとして出力
-	stdoutJSON := bridge.WritingTarget{
-		Write:  bridge.WriteStdout,
-		Format: bridge.FormatJSON,
-	}
-	s, err := stdoutJSON.WriteOut(human)
-	if !assert.NoError(t, err) {
-		return
-	}
-	assert.Equal(t, `[stdout] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`, s)
+type testcase struct {
+	name     string
+	model    bridge.Human
+	target   *bridge.WritingTarget
+	expected string
 }
 
-func TestBridgeStdoutYAML(t *testing.T) {
-	// 標準出力に YAMLとして出力
-	stdoutYAML := bridge.WritingTarget{
-		Write:  bridge.WriteStdout,
-		Format: bridge.FormatYAML,
-	}
-	s, err := stdoutYAML.WriteOut(human)
+func (tc testcase) assert(t *testing.T) {
+	s, err := tc.target.WriteOut(human)
 	if !assert.NoError(t, err) {
 		return
 	}
-	assert.Equal(t, `[stdout] name: Bridge
+	assert.Equal(t, tc.expected, s)
+}
+
+func Test4Patterns(t *testing.T) {
+	// 4系統の組み合わせを用意し、全ての組み合わせで稼働していることを確認
+	cases := []testcase{
+		{
+			name:  "stdout x json",
+			model: human,
+			target: &bridge.WritingTarget{
+				Write:  bridge.WriteStdout,
+				Format: bridge.FormatJSON,
+			},
+			expected: `[stdout] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
+		},
+		{
+			name:  "stdout x yaml",
+			model: human,
+			target: &bridge.WritingTarget{
+				Write:  bridge.WriteStdout,
+				Format: bridge.FormatYAML,
+			},
+			expected: `[stdout] name: Bridge
 job:
     name: Bridge Architect
     title: Manager
-`, s)
-}
-
-func TestBridgeStderrJSON(t *testing.T) {
-	// 標準エラー出力に JSONとして出力
-	stderrJSON := bridge.WritingTarget{
-		Write:  bridge.WriteStderr,
-		Format: bridge.FormatJSON,
-	}
-	s, err := stderrJSON.WriteOut(human)
-	if !assert.NoError(t, err) {
-		return
-	}
-	assert.Equal(t, `[stderr] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`, s)
-}
-
-func TestBridgeStderrYAML(t *testing.T) {
-	// 標準エラー出力に YAMLとして出力
-	stderrYAML := bridge.WritingTarget{
-		Write:  bridge.WriteStderr,
-		Format: bridge.FormatYAML,
-	}
-	s, err := stderrYAML.WriteOut(human)
-	if !assert.NoError(t, err) {
-		return
-	}
-	assert.Equal(t, `[stderr] name: Bridge
+`,
+		},
+		{
+			name:  "stderr x json",
+			model: human,
+			target: &bridge.WritingTarget{
+				Write:  bridge.WriteStderr,
+				Format: bridge.FormatJSON,
+			},
+			expected: `[stderr] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
+		},
+		{
+			name:  "stderr x yaml",
+			model: human,
+			target: &bridge.WritingTarget{
+				Write:  bridge.WriteStderr,
+				Format: bridge.FormatYAML,
+			},
+			expected: `[stderr] name: Bridge
 job:
     name: Bridge Architect
     title: Manager
-`, s)
+`,
+		},
+	}
+	for _, c := range cases {
+		c.assert(t)
+	}
 }
