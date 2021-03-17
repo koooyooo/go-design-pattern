@@ -2,36 +2,36 @@ package bridge
 
 import (
 	"fmt"
-	"io"
 	"os"
 )
 
-var TargetString = &writingTargetString{}
-var TargetStdout = &writingTargetStdout{}
-
 type (
-	WritingTarget io.Writer
-
-	writingTargetString struct {
-		b []byte
-	}
-	writingTargetStdout struct {
+	WritingTarget struct {
+		Write  func(b []byte) (string, error)
+		Format WritingFormat
 	}
 )
 
-func (wts *writingTargetString) Write(p []byte) (int, error) {
-	wts.b = append(wts.b, p...)
-	return len(p), nil
+func WriteStdout(b []byte) (string, error) {
+	s := fmt.Sprintf("[stdout] %s", string(b))
+	_, err := fmt.Fprint(os.Stdout, s)
+	return s, err
 }
 
-func (wts writingTargetString) String() string {
-	return string(wts.b)
+func WriteStderr(b []byte) (string, error) {
+	s := fmt.Sprintf("[stderr] %s", string(b))
+	_, err := fmt.Fprint(os.Stderr, s)
+	return s, err
 }
 
-func (wts *writingTargetStdout) Write(p []byte) (int, error) {
-	n, err := fmt.Fprint(os.Stdout, string(p))
+func (wb WritingTarget) WriteOut(v interface{}) (string, error) {
+	b, err := wb.Format.Marshal(v)
 	if err != nil {
-		return n, err
+		return "", err
 	}
-	return len(p), nil
+	s, err := wb.Write(b)
+	if err != nil {
+		return "", err
+	}
+	return s, nil
 }
