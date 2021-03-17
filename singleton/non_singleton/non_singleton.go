@@ -1,14 +1,14 @@
-package singleton
+package non_singleton
 
 // 通常の構造体の取得
-func NewNormal() *normal {
+func New() *nonSingle {
 	// 毎回生成して返却
-	return &normal{
+	return &nonSingle{
 		Value: "Hello",
 	}
 }
 
 // 通常の構造体の宣言
-type normal struct {
+type nonSingle struct {
 	Value string
 }

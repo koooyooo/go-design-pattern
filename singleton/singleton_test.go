@@ -27,6 +27,8 @@ package singleton_pattern
 import (
 	"testing"
 
+	"github.com/koooyooo/go-design-pattern/singleton/non_singleton"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/koooyooo/go-design-pattern/singleton/singleton"
@@ -48,8 +50,8 @@ func TestSingleton(t *testing.T) {
 // 逆に一般的な生成パターンは、コンストラクタ関数の中でインスタンスを生成します。
 // そのため、同じ値を持ちますが(同値)、参照は同じ(同一)ではありません。
 func TestNonSingleton(t *testing.T) {
-	s1 := singleton.NewNormal()
-	s2 := singleton.NewNormal()
+	s1 := non_singleton.New()
+	s2 := non_singleton.New()
 
 	// インスタンスの内容は同じだが
 	assert.Equal(t, s1, s2)
