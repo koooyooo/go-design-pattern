@@ -1,34 +1,37 @@
 package bridge
 
 import (
-	"encoding/json"
-	"encoding/xml"
-
-	"gopkg.in/yaml.v3"
+	"fmt"
+	"io"
+	"os"
 )
 
-var FormatJSON = &writingFormatJSON{}
-var FormatYAML = &writingFormatYAML{}
-var FormatXML = &writingFormatXML{}
+var TargetString = &writingTargetString{}
+var TargetStdout = &writingTargetStdout{}
 
 type (
-	WritingFormat interface {
-		Marshal(interface{}) ([]byte, error)
-	}
+	WritingTarget io.Writer
 
-	writingFormatJSON struct{}
-	writingFormatYAML struct{}
-	writingFormatXML  struct{}
+	writingTargetString struct {
+		b []byte
+	}
+	writingTargetStdout struct {
+	}
 )
 
-func (wj writingFormatJSON) Marshal(v interface{}) ([]byte, error) {
-	return json.Marshal(v)
+func (wts *writingTargetString) Write(p []byte) (int, error) {
+	wts.b = append(wts.b, p...)
+	return len(p), nil
 }
 
-func (wy writingFormatYAML) Marshal(v interface{}) ([]byte, error) {
-	return yaml.Marshal(v)
+func (wts writingTargetString) String() string {
+	return string(wts.b)
 }
 
-func (wx writingFormatXML) Marshal(v interface{}) ([]byte, error) {
-	return xml.Marshal(v)
+func (wts *writingTargetStdout) Write(p []byte) (int, error) {
+	n, err := fmt.Fprint(os.Stdout, string(p))
+	if err != nil {
+		return n, err
+	}
+	return len(p), nil
 }
