@@ -13,7 +13,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Singleton | ○ | |
 | | ^ | Prototype | ○ | |
 | | Structural |Adapter | ○ | |
-| | ^ | Bridge  | | |
+| | ^ | Bridge  | ○ | |
 | | ^ | Composite| | |
 | | ^ | Decorator | | |
 | | ^ | Facade | | |
