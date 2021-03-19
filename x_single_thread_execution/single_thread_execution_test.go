@@ -20,8 +20,9 @@ func TestSingleThreadExecution(t *testing.T) {
 	var w sync.WaitGroup
 	w.Add(100)
 	s := synchronized.Account{}
+	// 100 ThreadからTransaction処理を実施
 	for i := 0; i < 100; i++ {
-		go s.SinglePath(&w)
+		go s.Transaction(&w)
 	}
 	w.Wait()
 
@@ -29,7 +30,7 @@ func TestSingleThreadExecution(t *testing.T) {
 	assert.NotContains(t, "Plus,Plus", s.String())
 	assert.NotContains(t, "Minus,Minus", s.String())
 
-	// 値も保証していることを確認
+	// 値を保証できていることを確認
 	assert.Equal(t, 0, s.Amount())
 }
 
@@ -37,8 +38,9 @@ func TestNonSingleThreadExecution(t *testing.T) {
 	var w sync.WaitGroup
 	w.Add(100)
 	s := un_synchronized.Account{}
+	// 100 ThreadからTransaction処理を実施
 	for i := 0; i < 100; i++ {
-		go s.SinglePath(&w)
+		go s.Transaction(&w)
 	}
 	w.Wait()
 
@@ -46,6 +48,6 @@ func TestNonSingleThreadExecution(t *testing.T) {
 	assert.Contains(t, s.String(), "Plus,Plus")
 	assert.Contains(t, s.String(), "Minus,Minus")
 
-	// 値すら崩れてしまうことを確認
+	// 値を保証できないことを確認
 	assert.NotEqual(t, 0, s.Amount())
 }

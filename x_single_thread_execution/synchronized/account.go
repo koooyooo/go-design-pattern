@@ -12,7 +12,7 @@ type Account struct {
 	logs   []string
 }
 
-func (s *Account) SinglePath(w *sync.WaitGroup) {
+func (s *Account) Transaction(w *sync.WaitGroup) {
 	s.m.Lock()
 	s.amount += 100
 	s.logs = append(s.logs, "Plus")
