@@ -54,23 +54,34 @@ func (tc testcase) assert(t *testing.T) {
 
 func Test4Patterns(t *testing.T) {
 	// 4系統の組み合わせを用意し、全ての組み合わせで稼働していることを確認
+	stdoutJSON := &bridge.WritingTarget{
+		Write:  bridge.WriteStdout,
+		Format: bridge.FormatJSON,
+	}
+	stdoutYAML := &bridge.WritingTarget{
+		Write:  bridge.WriteStdout,
+		Format: bridge.FormatYAML,
+	}
+	stderrJSON := &bridge.WritingTarget{
+		Write:  bridge.WriteStderr,
+		Format: bridge.FormatJSON,
+	}
+	stderrYAML := &bridge.WritingTarget{
+		Write:  bridge.WriteStderr,
+		Format: bridge.FormatYAML,
+	}
+
 	cases := []testcase{
 		{
-			name:  "stdout x json",
-			model: human,
-			target: &bridge.WritingTarget{
-				Write:  bridge.WriteStdout,
-				Format: bridge.FormatJSON,
-			},
+			name:     "stdout x json",
+			model:    human,
+			target:   stdoutJSON,
 			expected: `[stdout] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
-			name:  "stdout x yaml",
-			model: human,
-			target: &bridge.WritingTarget{
-				Write:  bridge.WriteStdout,
-				Format: bridge.FormatYAML,
-			},
+			name:   "stdout x yaml",
+			model:  human,
+			target: stdoutYAML,
 			expected: `[stdout] name: Bridge
 job:
     name: Bridge Architect
@@ -78,21 +89,15 @@ job:
 `,
 		},
 		{
-			name:  "stderr x json",
-			model: human,
-			target: &bridge.WritingTarget{
-				Write:  bridge.WriteStderr,
-				Format: bridge.FormatJSON,
-			},
+			name:     "stderr x json",
+			model:    human,
+			target:   stderrJSON,
 			expected: `[stderr] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
-			name:  "stderr x yaml",
-			model: human,
-			target: &bridge.WritingTarget{
-				Write:  bridge.WriteStderr,
-				Format: bridge.FormatYAML,
-			},
+			name:   "stderr x yaml",
+			model:  human,
+			target: stderrYAML,
 			expected: `[stderr] name: Bridge
 job:
     name: Bridge Architect
