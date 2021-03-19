@@ -6,12 +6,12 @@ import (
 	"time"
 )
 
-type UnSynchronized struct {
+type Account struct {
 	amount int
 	logs   []string
 }
 
-func (s *UnSynchronized) SinglePath(w *sync.WaitGroup) {
+func (s *Account) SinglePath(w *sync.WaitGroup) {
 	s.amount += 100
 	s.logs = append(s.logs, "Plus")
 	time.Sleep(10 * time.Millisecond)
@@ -20,10 +20,10 @@ func (s *UnSynchronized) SinglePath(w *sync.WaitGroup) {
 	w.Done()
 }
 
-func (s UnSynchronized) String() string {
+func (s Account) String() string {
 	return strings.Join(s.logs, ",")
 }
 
-func (s UnSynchronized) Amount() int {
+func (s Account) Amount() int {
 	return s.amount
 }

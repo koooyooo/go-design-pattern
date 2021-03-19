@@ -19,7 +19,7 @@ import (
 func TestSingleThreadExecution(t *testing.T) {
 	var w sync.WaitGroup
 	w.Add(100)
-	s := synchronized.Synchronized{}
+	s := synchronized.Account{}
 	for i := 0; i < 100; i++ {
 		go s.SinglePath(&w)
 	}
@@ -36,7 +36,7 @@ func TestSingleThreadExecution(t *testing.T) {
 func TestNonSingleThreadExecution(t *testing.T) {
 	var w sync.WaitGroup
 	w.Add(100)
-	s := un_synchronized.UnSynchronized{}
+	s := un_synchronized.Account{}
 	for i := 0; i < 100; i++ {
 		go s.SinglePath(&w)
 	}
