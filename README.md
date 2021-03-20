@@ -37,12 +37,13 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | --- | --- | --- | --- | --- |
 | | ^ | Single Thread Execution | ○ | |
 | | ^ | Immutable | ○ | |
-| | ^ | GuardedSuspention | ⇒ | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
-| | ^ |  | | |
+| | ^ | Guarded Suspension | ○ | |
+| | ^ | Balking | | |
+| | ^ | Producer Consumer | | |
+| | ^ | Read Write Lock | | |
+| | ^ | Thread Per Message | | |
+| | ^ | Worker Thread | | |
+| | ^ | Future | | |
+| | ^ | Two Phase Termination | | |
+| | ^ | Thread Specific Storage | | |
+| | ^ | Active Object | | |
