@@ -25,10 +25,11 @@ func TestGuardedSuspensionWait(t *testing.T) {
 		time.Sleep(100 * time.Millisecond)
 		q.AddLast("second")
 	}()
-	// 要素が無い状態でコールするとその場で待機状態に入る。(別の処理Threadから要素が追加されると処理が再開される)
+	// 要素が無い状態でコールするとその場で待機状態に入る (別の処理Threadから要素が追加されると処理が再開される)
 	first := q.RemoveFirst()
 	second := q.RemoveFirst()
 
+	// ログを確認すると、待機-解除を繰り返しているのが確認できる
 	// 1.最初に取得を試みるも待機状態となり、2.要素追加をすると、3.それを条件に待機状態を抜け要素取得に成功…を2回繰り返す
 	assert.EqualValues(t, []string{
 		"RemoveFirst-Wait",
@@ -51,6 +52,7 @@ func TestGuardedSuspentionNoWait(t *testing.T) {
 	first := q.RemoveFirst()
 	second := q.RemoveFirst()
 
+	// ログを確認すると、待機なしに処理が完了しているのが確認できる
 	assert.EqualValues(t, []string{
 		"AddLast",
 		"AddLast",
