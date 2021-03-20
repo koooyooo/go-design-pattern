@@ -1,4 +1,4 @@
-package taskqueue
+package guarded_suspension
 
 import "sync"
 
@@ -18,21 +18,26 @@ func NewTaskQueue() *taskQueue {
 
 // AddLast はtaskQueueの最後に要素を追加します
 func (q *taskQueue) AddLast(task interface{}) {
+	// 通知区域はLockで保護
 	q.cond.L.Lock()
 	defer q.cond.L.Unlock()
 
 	q.tasks = append(q.tasks, task)
 	q.logs = append(q.logs, "AddLast")
+	// 待機解除のシグナルを発行
 	q.cond.Signal()
 }
 
 // RemoveFirst はtaskQueueの先頭の要素を削除しそれを返します
 func (q *taskQueue) RemoveFirst() interface{} {
+	// 待機区域はLockで保護
 	q.cond.L.Lock()
 	defer q.cond.L.Unlock()
 
+	// if文に相当する部分は forで書き 繰り返し評価可能とする
 	for len(q.tasks) == 0 {
 		q.logs = append(q.logs, "RemoveFirst-Wait")
+		// 待機命令を発行
 		q.cond.Wait()
 	}
 	v := q.tasks[0]

@@ -1,10 +1,11 @@
 // [目的]
 // GuardedSuspension の目的はタスク消費の最適化です。
-// タスクのキューに一工夫を施し、仕事が無くなれば即休憩、仕事が入ったならば即稼働という、最適稼働を実現します。
+// タスクのキューに同期処理を施し、仕事が無くなれば即休憩 → 仕事が入れば即再開という、最適稼働を実現します。
 //
 // [概要]
-// GolangにはChannelが存在します。実はChannelは実に良く完成されたGuardedSuspensionです。
-// ここではChannelを用いたGuardedSuspensionと、独自に作成したGuardedSuspensionの2通りで実現したいと思います。
+//
+// Golangには 既存のGuardedSuspensionが存在します。それがchannelです。
+// ここでは独自に作成したGuardedSuspensionを用いて基本的な実現方法を確認し、その後Channelを用いて
 package guarded_suspension_pattern
 
 import (
@@ -13,11 +14,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/koooyooo/go-design-pattern/x_guarded_suspension/taskqueue"
+	"github.com/koooyooo/go-design-pattern/x_guarded_suspension/guarded_suspension"
 )
 
 func TestGuardedSuspensionTaskQueueWait(t *testing.T) {
-	q := taskqueue.NewTaskQueue()
+	q := guarded_suspension.NewTaskQueue()
 	// 要素追加を遅延起動(100ms後)
 	go func() {
 		time.Sleep(100 * time.Millisecond)
@@ -44,7 +45,7 @@ func TestGuardedSuspensionTaskQueueWait(t *testing.T) {
 }
 
 func TestGuardedSuspensionTaskQueueNoWait(t *testing.T) {
-	q := taskqueue.NewTaskQueue()
+	q := guarded_suspension.NewTaskQueue()
 
 	// 要素が既に存在する場合は、待機状態に入らず要素取得に成功する
 	q.AddLast("first")
