@@ -16,7 +16,7 @@ import (
 	"github.com/koooyooo/go-design-pattern/x_guarded_suspension/taskqueue"
 )
 
-func TestGuardedSuspensionWait(t *testing.T) {
+func TestGuardedSuspensionTaskQueueWait(t *testing.T) {
 	q := taskqueue.NewTaskQueue()
 	// 要素追加を遅延起動(100ms後)
 	go func() {
@@ -25,7 +25,8 @@ func TestGuardedSuspensionWait(t *testing.T) {
 		time.Sleep(100 * time.Millisecond)
 		q.AddLast("second")
 	}()
-	// 要素が無い状態でコールするとその場で待機状態に入る (別の処理Threadから要素が追加されると処理が再開される)
+	// 要素が無い状態でコールするとその場で待機状態に入る
+	// 先の遅延Threadから要素が追加されると処理が再開される
 	first := q.RemoveFirst()
 	second := q.RemoveFirst()
 
@@ -42,7 +43,7 @@ func TestGuardedSuspensionWait(t *testing.T) {
 	assert.Equal(t, "second", second)
 }
 
-func TestGuardedSuspentionNoWait(t *testing.T) {
+func TestGuardedSuspensionTaskQueueNoWait(t *testing.T) {
 	q := taskqueue.NewTaskQueue()
 
 	// 要素が既に存在する場合は、待機状態に入らず要素取得に成功する
@@ -58,6 +59,63 @@ func TestGuardedSuspentionNoWait(t *testing.T) {
 		"AddLast",
 		"RemoveFirst-Done",
 		"RemoveFirst-Done"}, q.Logs())
+	assert.Equal(t, "first", first)
+	assert.Equal(t, "second", second)
+}
+
+func TestGuardedSuspensionChannelWait(t *testing.T) {
+	var logs []string
+	q := make(chan interface{})
+
+	// 要素追加を遅延起動(100ms後)
+	go func() {
+		time.Sleep(100 * time.Millisecond)
+		q <- "first"
+		logs = append(logs, "AddLast")
+		time.Sleep(100 * time.Millisecond)
+		q <- "second"
+		logs = append(logs, "AddLast")
+	}()
+
+	// 要素が無い状態でコールするとその場で待機状態に入る
+	// 先の遅延Threadから要素が追加されると処理が再開される
+	first := <-q
+	logs = append(logs, "RemoveFirst")
+	second := <-q
+	logs = append(logs, "RemoveFirst")
+
+	// ログを確認すると、処理順が異なるにも関わらず、追加-取得の順に繰り返しているのを確認できる (Waitはchannel内の制御のため出力できない)
+	assert.EqualValues(t, []string{
+		"AddLast",
+		"RemoveFirst",
+		"AddLast",
+		"RemoveFirst"}, logs)
+	assert.Equal(t, "first", first)
+	assert.Equal(t, "second", second)
+}
+
+func TestGuardedSuspensionChannelNoWait(t *testing.T) {
+	var logs []string
+	q := make(chan interface{})
+
+	q <- "first"
+	logs = append(logs, "AddLast")
+	q <- "second"
+	logs = append(logs, "AddLast")
+
+	// 要素が既に存在する場合は即時取得できる
+	first := <-q
+	logs = append(logs, "RemoveFirst")
+	second := <-q
+	logs = append(logs, "RemoveFirst")
+
+	// ログを確認すると、待機が存在せず処理命令の順に実行されているのが確認できる
+	assert.EqualValues(t, []string{
+		"AddLast",
+		"AddLast",
+		"RemoveFirst",
+		"RemoveFirst"}, logs)
+
 	assert.Equal(t, "first", first)
 	assert.Equal(t, "second", second)
 }
