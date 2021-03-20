@@ -6,27 +6,35 @@ import (
 	"time"
 )
 
-type Account struct {
-	m      sync.Mutex
-	amount int
-	logs   []string
+type account struct {
+	m       sync.Mutex
+	w       *sync.WaitGroup // タイミング制御に使用、本質的な要素ではない
+	balance int
+	logs    []string
 }
 
-func (s *Account) Transaction(w *sync.WaitGroup) {
-	s.m.Lock()
-	s.amount += 100
-	s.logs = append(s.logs, "Plus")
+func NewAccount(w *sync.WaitGroup, balance int) *account {
+	return &account{
+		w:       w,
+		balance: balance,
+	}
+}
+
+func (a *account) PlusMinusTransaction(plusAmount, minusAmount int) {
+	a.m.Lock()
+	a.balance += plusAmount
+	a.logs = append(a.logs, "Plus")
 	time.Sleep(10 * time.Millisecond)
-	s.amount -= 100
-	s.logs = append(s.logs, "Minus")
-	w.Done()
-	s.m.Unlock()
+	a.balance -= minusAmount
+	a.logs = append(a.logs, "Minus")
+	a.w.Done()
+	a.m.Unlock()
 }
 
-func (s Account) String() string {
-	return strings.Join(s.logs, ",")
+func (a account) String() string {
+	return strings.Join(a.logs, ",")
 }
 
-func (s Account) Amount() int {
-	return s.amount
+func (a account) Amount() int {
+	return a.balance
 }

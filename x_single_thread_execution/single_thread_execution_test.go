@@ -6,6 +6,7 @@
 package x_single_thread_execution_pattern
 
 import (
+	"fmt"
 	"sync"
 	"testing"
 
@@ -17,37 +18,47 @@ import (
 )
 
 func TestSingleThreadExecution(t *testing.T) {
+	const numTx = 100
+
+	// 処理数管理用の WaitGroupを用意（テスト都合)
 	var w sync.WaitGroup
-	w.Add(100)
-	s := synchronized.Account{}
-	// 100 ThreadからTransaction処理を実施
-	for i := 0; i < 100; i++ {
-		go s.Transaction(&w)
+	w.Add(numTx)
+
+	// 残高1000の口座に対し非同期で100回 +100 -100の取引を実施
+	a := synchronized.NewAccount(&w, 1000)
+	for i := 0; i < numTx; i++ {
+		go a.PlusMinusTransaction(100, 100)
 	}
 	w.Wait()
 
 	// Plus,Minus のログが必ず交互に出力されることを確認
-	assert.NotContains(t, "Plus,Plus", s.String())
-	assert.NotContains(t, "Minus,Minus", s.String())
+	assert.NotContains(t, "Plus,Plus", a.String())
+	assert.NotContains(t, "Minus,Minus", a.String())
 
-	// 値を保証できていることを確認
-	assert.Equal(t, 0, s.Amount())
+	// 値を保持できていることを確認
+	assert.Equal(t, 1000, a.Amount())
+	fmt.Printf("Single: %b\n", a.Amount())
 }
 
 func TestNonSingleThreadExecution(t *testing.T) {
+	const numTx = 100
+
+	// 処理数管理用の WaitGroupを用意（テスト都合)
 	var w sync.WaitGroup
-	w.Add(100)
-	s := un_synchronized.Account{}
-	// 100 ThreadからTransaction処理を実施
-	for i := 0; i < 100; i++ {
-		go s.Transaction(&w)
+	w.Add(numTx)
+
+	// 残高1000の口座に対し非同期で100回 +100 -100の取引を実施
+	a := un_synchronized.NewAccount(&w, 1000)
+	for i := 0; i < numTx; i++ {
+		go a.PlusMinusTransaction(100, 100)
 	}
 	w.Wait()
 
-	// Plus,Minus のログが必ずしも交互に出力されないことを確認
-	assert.Contains(t, s.String(), "Plus,Plus")
-	assert.Contains(t, s.String(), "Minus,Minus")
+	// Plus,Minus のログが必ずしも交互に出力されないことを確認 (100%交互出力が崩れる訳ではない)
+	assert.Contains(t, a.String(), "Plus,Plus")
+	assert.Contains(t, a.String(), "Minus,Minus")
 
-	// 値を保証できないことを確認
-	assert.NotEqual(t, 0, s.Amount())
+	// 値を保持できないことを確認 (100%保持できない訳ではない)
+	assert.NotEqual(t, 1000, a.Amount())
+	fmt.Printf("NonSingle: %b\n", a.Amount())
 }
