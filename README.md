@@ -5,6 +5,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 
 問題点や提案等あればご指摘頂けると助かります。
 
+## GoF Pattern
 | # | Type | Name | Done | Description |
 | --- | --- | --- | --- | --- |
 | | Creational | Abstract Factory | ○ | |
@@ -14,7 +15,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Prototype | ○ | |
 | | Structural |Adapter | ○ | |
 | | ^ | Bridge  | ○ | |
-| | ^ | Composite| | |
+| | ^ | Composite| ⇒ | |
 | | ^ | Decorator | | |
 | | ^ | Facade | | |
 | | ^ | Flyweight | | |
@@ -31,3 +32,17 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Template | | |
 | | ^ | Visitor | | |
 
+## MultiThread Pattern 
+| # | Type | Name | Done | Description |
+| --- | --- | --- | --- | --- |
+| | ^ | Single Thread Execution | ○ | |
+| | ^ | Immutable | ○ | |
+| | ^ | GuardedSuspention | ⇒ | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
+| | ^ |  | | |
