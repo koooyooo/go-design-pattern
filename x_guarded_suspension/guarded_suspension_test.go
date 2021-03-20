@@ -29,10 +29,10 @@
 //   - RemoveFirstはガード条件に合致した場合、ループ内で c.Wait()をコールし Threadを待機状態にする
 // - AddFirstも同期保護する
 // 	 - c.Signal(), c.Broadcast() 自体は同期不要だが 周辺の状態を守るために保護
-//	 	- `It is allowed but not required for the caller to hold c.L during the call.` (c.Signal() & c.Broadcast())
+//	   - `It is allowed but not required for the caller to hold c.L during the call.` (c.Signal() & c.Broadcast())
 //   - 要素追加後に待機中のThreadに対し再開を促す通知をする
-//		- c.Signal() は待機中の 1Thread
-//		- c.Broadcast() は待機中の 全Thread
+//     - c.Signal() は待機中の 1Thread
+//	   - c.Broadcast() は待機中の 全Thread
 package guarded_suspension_pattern
 
 import (
