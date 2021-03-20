@@ -24,19 +24,54 @@
 package immutable_pattern
 
 import (
+	"fmt"
+	"sync"
 	"testing"
+	"time"
+
+	"github.com/koooyooo/go-design-pattern/x_immutable/immutable_fragile"
 
 	"github.com/koooyooo/go-design-pattern/x_immutable/immutable"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestImmutable(t *testing.T) {
+	var wg sync.WaitGroup
+	wg.Add(100)
+
 	s := immutable.NewScore(100)
 	for i := 0; i < 100; i++ {
 		// 値の取得しか出来ないので同時アクセスされても何も出来ない
+		// 下記のFragileと異なり、返却値もポインタではなく実値なので、変更もできない
 		go func() {
 			s.Value()
+			time.Sleep(100 * time.Millisecond)
+			wg.Done()
 		}()
 	}
+	wg.Wait()
 	assert.Equal(t, 100, s.Value())
+}
+
+func TestImmutableFragile(t *testing.T) {
+	var wg sync.WaitGroup
+	wg.Add(100)
+
+	s := immutable_fragile.NewScore(100)
+	for i := 0; i < 100; i++ {
+		// 取得した値が Immutableではないので値の書き換え可能
+		// 同期制御も無いので、実行のたびに値が変わる
+		go func() {
+			v := s.Value()
+			time.Sleep(100 * time.Millisecond)
+			*v += 100
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+	// 値が書き換えられてしまう
+	assert.NotEqual(t, 100, *s.Value())
+	// 同期制御もないので、10100とも限らない (偶然10100になる場合もある)
+	assert.NotEqual(t, 10100, *s.Value())
+	fmt.Printf("Expected: 10100, Actual: %d \n", *s.Value())
 }
