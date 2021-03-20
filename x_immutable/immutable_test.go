@@ -82,5 +82,6 @@ func TestImmutableFragile(t *testing.T) {
 	// 値が書き換えられてしまう
 	assert.NotEqual(t, 100, *s.Value())
 	// 同期制御もないので、10080とも限らない (偶然10080になる場合もある)
+	assert.NotEqual(t, 10080, *s.Value())
 	fmt.Printf("Expected: 10080, Actual: %d \n", *s.Value())
 }
