@@ -27,7 +27,7 @@
 // メモリ上の同じ値を同時編集することに起因するものがあります。
 //
 // そこで、一連のTransactionを表現するスコープにおいて、SingleThreadExecutionを実装して不整合を防いでいます。
-package x_single_thread_execution_pattern
+package single_thread_execution_pattern
 
 import (
 	"fmt"
