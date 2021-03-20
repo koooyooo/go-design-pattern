@@ -3,13 +3,15 @@ package taskqueue
 import "sync"
 
 type taskQueue struct {
-	cond  sync.Cond
+	cond  *sync.Cond
 	tasks []interface{}
 	logs  []string
 }
 
 func NewTaskQueue() *taskQueue {
-	return &taskQueue{}
+	return &taskQueue{
+		cond: sync.NewCond(&sync.Mutex{}),
+	}
 }
 
 func (q *taskQueue) AddLast(task interface{}) {
@@ -26,11 +28,12 @@ func (q *taskQueue) RemoveFirst() interface{} {
 	defer q.cond.L.Unlock()
 
 	for len(q.tasks) == 0 {
+		q.logs = append(q.logs, "RemoveFirst-Wait")
 		q.cond.Wait()
 	}
 	v := q.tasks[0]
 	q.tasks = q.tasks[1:]
-	q.logs = append(q.logs, "RemoveFirst")
+	q.logs = append(q.logs, "RemoveFirst-Done")
 	return v
 }
 
