@@ -1,6 +1,6 @@
 // [目的]
 // GuardedSuspension の目的はタスク消費の最適化です。
-// タスクのキューに同期処理を施し、仕事が無くなれば即休憩 → 仕事が入れば即再開という、最適稼働を実現します。
+// タスクのキューに同期処理を施し「仕事が無くなれば即休憩 -> 仕事が入れば即再開」という最適稼働を実現します。
 //
 // [概要]
 //
@@ -17,6 +17,7 @@ import (
 	"github.com/koooyooo/go-design-pattern/x_guarded_suspension/guarded_suspension"
 )
 
+// 独自実装を用いての待機が入るシナリオ
 func TestGuardedSuspensionTaskQueueWait(t *testing.T) {
 	q := guarded_suspension.NewTaskQueue()
 	// 要素追加を遅延起動(100ms後)
@@ -44,6 +45,7 @@ func TestGuardedSuspensionTaskQueueWait(t *testing.T) {
 	assert.Equal(t, "second", second)
 }
 
+// 独自実装を用いての待機が入らないシナリオ
 func TestGuardedSuspensionTaskQueueNoWait(t *testing.T) {
 	q := guarded_suspension.NewTaskQueue()
 
@@ -64,6 +66,7 @@ func TestGuardedSuspensionTaskQueueNoWait(t *testing.T) {
 	assert.Equal(t, "second", second)
 }
 
+// Channel実装を用いての待機が入るシナリオ
 func TestGuardedSuspensionChannelWait(t *testing.T) {
 	var logs []string
 	q := make(chan interface{})
@@ -95,6 +98,7 @@ func TestGuardedSuspensionChannelWait(t *testing.T) {
 	assert.Equal(t, "second", second)
 }
 
+// Channel実装を用いての待機が入らないシナリオ
 func TestGuardedSuspensionChannelNoWait(t *testing.T) {
 	var logs []string
 	q := make(chan interface{})
