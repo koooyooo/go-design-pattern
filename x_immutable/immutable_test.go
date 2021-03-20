@@ -35,35 +35,45 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// 完成された Immutableのテストです
 func TestImmutable(t *testing.T) {
+	const LoopNum = 100
+
 	var wg sync.WaitGroup
 	wg.Add(100)
 
-	s := immutable.NewScore(100)
-	for i := 0; i < 100; i++ {
+	score := 80
+	s := immutable.NewScore(score)
+	for i := 0; i < LoopNum; i++ {
 		// 値の取得しか出来ないので同時アクセスされても何も出来ない
-		// 下記のFragileと異なり、返却値もポインタではなく実値なので、変更もできない
+		// 下記のFragileと異なり、返却値もポインタではなく実値なので、変更が影響しない
 		go func() {
-			s.Value()
-			time.Sleep(100 * time.Millisecond)
+			v := s.Value()
+			// 返却値はコピー値に過ぎないので変更がscoreに影響しない
+			v += 10
+			time.Sleep(200 * time.Millisecond)
 			wg.Done()
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, 100, s.Value())
+	// 値は書き換えられていない
+	assert.Equal(t, 80, s.Value())
 }
 
 func TestImmutableFragile(t *testing.T) {
-	var wg sync.WaitGroup
-	wg.Add(100)
+	const LoopNum = 100
 
-	s := immutable_fragile.NewScore(100)
-	for i := 0; i < 100; i++ {
+	var wg sync.WaitGroup
+	wg.Add(LoopNum)
+
+	score := 80
+	s := immutable_fragile.NewScore(&score)
+	for i := 0; i < LoopNum; i++ {
 		// 取得した値が Immutableではないので値の書き換え可能
 		// 同期制御も無いので、実行のたびに値が変わる
 		go func() {
 			v := s.Value()
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 			*v += 100
 			wg.Done()
 		}()
@@ -71,7 +81,6 @@ func TestImmutableFragile(t *testing.T) {
 	wg.Wait()
 	// 値が書き換えられてしまう
 	assert.NotEqual(t, 100, *s.Value())
-	// 同期制御もないので、10100とも限らない (偶然10100になる場合もある)
-	assert.NotEqual(t, 10100, *s.Value())
-	fmt.Printf("Expected: 10100, Actual: %d \n", *s.Value())
+	// 同期制御もないので、10080とも限らない (偶然10080になる場合もある)
+	fmt.Printf("Expected: 10080, Actual: %d \n", *s.Value())
 }
