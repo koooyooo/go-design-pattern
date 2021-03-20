@@ -7,7 +7,7 @@ import (
 )
 
 type account struct {
-	m       sync.Mutex
+	m       sync.Mutex      // (変更点)
 	w       *sync.WaitGroup // タイミング制御に使用、本質的な要素ではない
 	balance int
 	logs    []string
@@ -21,14 +21,14 @@ func NewAccount(w *sync.WaitGroup, balance int) *account {
 }
 
 func (a *account) PlusMinusTransaction(plusAmount, minusAmount int) {
-	a.m.Lock()
+	a.m.Lock() // (変更点)
 	a.balance += plusAmount
 	a.logs = append(a.logs, "Plus")
 	time.Sleep(10 * time.Millisecond)
 	a.balance -= minusAmount
 	a.logs = append(a.logs, "Minus")
 	a.w.Done()
-	a.m.Unlock()
+	a.m.Unlock() // (変更点)
 }
 
 func (a account) String() string {
