@@ -10,6 +10,7 @@ type (
 type s3Storage struct{}
 
 func (s s3Storage) Store(data []byte) error {
+	// TODO Implement this func
 	return nil
 }
 
@@ -17,6 +18,7 @@ func (s s3Storage) Store(data []byte) error {
 type diskStorage struct{}
 
 func (s diskStorage) Store(data []byte) error {
+	// TODO Implement this func
 	return nil
 }
 
@@ -24,11 +26,13 @@ func (s diskStorage) Store(data []byte) error {
 type memoryStorage struct{}
 
 func (s memoryStorage) Store(data []byte) error {
+	// TODO Implement this func
 	return nil
 }
 
 type NopeStorage struct{}
 
 func (s NopeStorage) Store(data []byte) error {
+	// TODO Implement this func
 	return nil
 }
