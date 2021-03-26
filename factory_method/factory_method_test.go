@@ -28,7 +28,7 @@ import (
 // Storageの実体を知ることなく利用できる (疎結合)
 func TestFactoryMethod(t *testing.T) {
 	// Factory経由で実体を隠蔽
-	s := factory.GetStorage()
+	s := factory.CreateStorage()
 	err := s.Store([]byte("Hello"))
 	assert.NoError(t, err)
 }

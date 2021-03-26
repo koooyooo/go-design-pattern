@@ -1,7 +1,8 @@
 package composite_pattern
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestComposite(t *testing.T) {
-
 }

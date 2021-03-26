@@ -10,16 +10,25 @@ type (
 		Open() (string, error)
 	}
 	treeFile struct {
-		file fs.FileInfo
+		path     string
+		fileInfo fs.FileInfo
 	}
 	treeDir struct {
+		path    string
 		entries []os.DirEntry
 	}
 )
 
 func NewTreeFile(path string) (*treeFile, error) {
-	//os.ReadFile()
-	return nil, nil // TODO
+	fi, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	fi.Mode().String()
+	return &treeFile{
+		path:     path,
+		fileInfo: fi,
+	}, nil
 }
 
 func NewTreeDir(path string) (*treeDir, error) {
@@ -28,6 +37,7 @@ func NewTreeDir(path string) (*treeDir, error) {
 		return nil, err
 	}
 	return &treeDir{
+		path:    path,
 		entries: dirEntries,
 	}, nil
 }
