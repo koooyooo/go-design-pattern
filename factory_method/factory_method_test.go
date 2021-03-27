@@ -38,7 +38,7 @@ func TestFactoryMethod(t *testing.T) {
 func TestNonFactory(t *testing.T) {
 	var s factory.Storage
 	// 生成・代入プロセスで実体と密結合
-	s = &factory.NopeStorage{}
+	s = &factory.NoopStorage{}
 	err := s.Store([]byte("Hello"))
 	assert.NoError(t, err)
 }

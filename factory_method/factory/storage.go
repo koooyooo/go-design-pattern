@@ -30,9 +30,10 @@ func (s memoryStorage) Store(data []byte) error {
 	return nil
 }
 
-type NopeStorage struct{}
+// 無実装
+type NoopStorage struct{}
 
-func (s NopeStorage) Store(data []byte) error {
+func (s NoopStorage) Store(data []byte) error {
 	// TODO Implement this func
 	return nil
 }
