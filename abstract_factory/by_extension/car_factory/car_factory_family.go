@@ -33,7 +33,7 @@ func (f *familyCarFactory) createTire() (tire, error) {
 }
 
 func NewFamilyCarFactory() (AbstractCarFactory, error) {
-	return &AbstractCarFactoryImpl{&familyCarFactory{}}, nil
+	return &abstractCarFactoryImpl{&familyCarFactory{}}, nil
 
 	//// 抽象の工場に実装を注入します。
 	//// 本来は継承を用いてMethodのOverrideで差分実装しますが、Golangには継承が無いので関数を注入し委譲することでOverrideします。
