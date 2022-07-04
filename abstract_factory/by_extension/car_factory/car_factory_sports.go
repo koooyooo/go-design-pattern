@@ -34,18 +34,4 @@ func (f *sportsCarFactory) createTire() (tire, error) {
 
 func NewSportsCarFactory() (AbstractCarFactory, error) {
 	return &abstractCarFactoryImpl{&sportsCarFactory{}}, nil
-
-	//// 抽象の工場に実装を注入します。
-	//// 本来は継承を用いてMethodのOverrideで差分実装しますが、Golangには継承が無いので関数を注入し委譲することでOverrideします。
-	//return &AbstractCarFactory{
-	//	createBody: func() (body, error) {
-	//		return &sportsBody{}, nil
-	//	},
-	//	createEngine: func() (engine, error) {
-	//		return &sportsEngine{}, nil
-	//	},
-	//	createTire: func() (tire, error) {
-	//		return &sportsTire{}, nil
-	//	},
-	//}, nil
 }
