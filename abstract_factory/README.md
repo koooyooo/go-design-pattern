@@ -45,7 +45,7 @@ func NewTemplateA() *Template {
 }
 ```
 
-### 2. Override先を 内部のinterfaceに纏めて実現 (by_extension)
+### 2. Override先を 内部のinterfaceに纏めて実現 (by extension)
 TemplateMethodの呼び出し先を 自身の関数ではなく移譲先Interfaceの関数で実現
  
 ```golang
