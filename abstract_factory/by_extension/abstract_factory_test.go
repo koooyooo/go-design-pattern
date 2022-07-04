@@ -22,7 +22,8 @@ package abstract_factory_pattern
 import (
 	"testing"
 
-	"github.com/koooyooo/go-design-pattern/abstract_factory/car_factory"
+	"github.com/koooyooo/go-design-pattern/abstract_factory/by_extension/car_factory"
+
 	"github.com/stretchr/testify/assert"
 )
 
