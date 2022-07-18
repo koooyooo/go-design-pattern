@@ -51,6 +51,10 @@ func TestImmutable(t *testing.T) {
 			v := s.Value()
 			// 返却値はコピー値に過ぎないので変更がscoreに影響しない
 			v += 10
+			// linterを落ち着かせるためだけの意味のないコード
+			if v == 0 {
+				fmt.Println("v == 0")
+			}
 			time.Sleep(200 * time.Millisecond)
 			wg.Done()
 		}()

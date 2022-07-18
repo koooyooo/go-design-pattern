@@ -31,10 +31,10 @@ func (a *account) PlusMinusTransaction(plusAmount, minusAmount int) {
 	a.m.Unlock() // (変更点)
 }
 
-func (a account) String() string {
+func (a *account) String() string {
 	return strings.Join(a.logs, ",")
 }
 
-func (a account) Amount() int {
+func (a *account) Amount() int {
 	return a.balance
 }
