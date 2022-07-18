@@ -36,8 +36,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/koooyooo/go-design-pattern/x_single_thread_execution/un_synchronized"
-
 	"github.com/koooyooo/go-design-pattern/x_single_thread_execution/synchronized"
 )
 
@@ -66,25 +64,26 @@ func TestSingleThreadExecution(t *testing.T) {
 }
 
 // SingleThreadExecutionを実装していないと高い確率で不整合が発生する
-func TestNonSingleThreadExecution(t *testing.T) {
-	const numTx = 100
-
-	// 処理数管理用の WaitGroupを用意（テスト都合)
-	var w sync.WaitGroup
-	w.Add(numTx)
-
-	// 残高1000の口座に対し 100Threadから同時に+100,-100の取引を実施
-	a := un_synchronized.NewAccount(&w, 1000)
-	for i := 0; i < numTx; i++ {
-		go a.PlusMinusTransaction(100, 100)
-	}
-	w.Wait()
-
-	// Plus,Minus のログが必ずしも交互に出力されないことを確認 (100%交互出力が崩れる訳ではない)
-	assert.Contains(t, a.String(), "Plus,Plus")
-	assert.Contains(t, a.String(), "Minus,Minus")
-
-	// 値を保持できないことを確認 (100%保持できない訳ではない)
-	assert.NotEqual(t, 1000, a.Amount())
-	fmt.Printf("NonSingle: %b\n", a.Amount())
-}
+// *) 100%発生する訳ではないのでコメントアウト
+//func TestNonSingleThreadExecution(t *testing.T) {
+//	const numTx = 100
+//
+//	// 処理数管理用の WaitGroupを用意（テスト都合)
+//	var w sync.WaitGroup
+//	w.Add(numTx)
+//
+//	// 残高1000の口座に対し 100Threadから同時に+100,-100の取引を実施
+//	a := un_synchronized.NewAccount(&w, 1000)
+//	for i := 0; i < numTx; i++ {
+//		go a.PlusMinusTransaction(100, 100)
+//	}
+//	w.Wait()
+//
+//	// Plus,Minus のログが必ずしも交互に出力されないことを確認 (100%交互出力が崩れる訳ではない)
+//	assert.Contains(t, a.String(), "Plus,Plus")
+//	assert.Contains(t, a.String(), "Minus,Minus")
+//
+//	// 値を保持できないことを確認 (100%保持できない訳ではない)
+//	assert.NotEqual(t, 1000, a.Amount())
+//	fmt.Printf("NonSingle: %b\n", a.Amount())
+//}
