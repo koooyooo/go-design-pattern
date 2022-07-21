@@ -106,6 +106,8 @@ job:
 		},
 	}
 	for _, c := range cases {
-		c.assert(t)
+		t.Run(c.name, func(t *testing.T) {
+			c.assert(t)
+		})
 	}
 }
