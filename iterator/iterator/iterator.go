@@ -32,30 +32,30 @@
 package iterator
 
 // Iterator は、次の要素があるかどうかを返すイテレータインターフェイス
-type Iterator[V any] interface {
+type Iterator[T any] interface {
 	HasNext() bool
-	Next() V
+	Next() T
 }
 
 // NewSliceIterator は、スライスをベースとしたイテレータを生成する
-func NewSliceIterator[V any](vs []V) Iterator[V] {
-	i := &sliceIterator[V]{
-		vs: vs,
+func NewSliceIterator[T any](vs []T) Iterator[T] {
+	i := &sliceIterator[T]{
+		slice: vs,
 	}
 	return i
 }
 
-type sliceIterator[V any] struct {
-	current int
-	vs      []V
+type sliceIterator[T any] struct {
+	idx   int
+	slice []T
 }
 
-func (i *sliceIterator[V]) HasNext() bool {
-	return i.current < len(i.vs)
+func (i *sliceIterator[T]) HasNext() bool {
+	return i.idx < len(i.slice)
 }
 
-func (i *sliceIterator[V]) Next() V {
-	v := i.vs[i.current]
-	i.current++
+func (i *sliceIterator[T]) Next() T {
+	v := i.slice[i.idx]
+	i.idx++
 	return v
 }
