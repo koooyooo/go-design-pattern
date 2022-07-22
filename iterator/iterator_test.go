@@ -1,9 +1,10 @@
 package iterator_pattern
 
 import (
-	"testing"
-
+	"github.com/koooyooo/go-design-pattern/iterator/iterator"
 	"github.com/stretchr/testify/assert"
+
+	"testing"
 )
 
 func TestIterator(t *testing.T) {
@@ -26,7 +27,7 @@ func TestIterator(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			ite := NewSliceIterator[int](test.origin)
+			ite := iterator.NewSliceIterator[int](test.origin)
 			var actual []int
 			for ite.HasNext() {
 				actual = append(actual, ite.Next())
