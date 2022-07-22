@@ -3,7 +3,7 @@ name: basic-ci
 on: [push]
 
 jobs:
-  setup:
+  build-test:
     runs-on: ubuntu-latest
     steps:
 
