@@ -29,8 +29,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/koooyooo/go-design-pattern/x_immutable/immutable_fragile"
-
 	"github.com/koooyooo/go-design-pattern/x_immutable/immutable"
 	"github.com/stretchr/testify/assert"
 )
@@ -64,28 +62,28 @@ func TestImmutable(t *testing.T) {
 	assert.Equal(t, 80, s.Value())
 }
 
-func TestImmutableFragile(t *testing.T) {
-	const LoopNum = 100
-
-	var wg sync.WaitGroup
-	wg.Add(LoopNum)
-
-	score := 80
-	s := immutable_fragile.NewScore(&score)
-	for i := 0; i < LoopNum; i++ {
-		// 取得した値が Immutableではないので値の書き換え可能
-		// 同期制御も無いので、実行のたびに値が変わる
-		go func() {
-			v := s.Value()
-			time.Sleep(200 * time.Millisecond)
-			*v += 100
-			wg.Done()
-		}()
-	}
-	wg.Wait()
-	// 値が書き換えられてしまう
-	assert.NotEqual(t, 100, *s.Value())
-	// 同期制御もないので、10080とも限らない (偶然10080になる場合もある)
-	assert.NotEqual(t, 10080, *s.Value())
-	fmt.Printf("Expected: 10080, Actual: %d \n", *s.Value())
-}
+//func TestImmutableFragile(t *testing.T) {
+//	const LoopNum = 100
+//
+//	var wg sync.WaitGroup
+//	wg.Add(LoopNum)
+//
+//	score := 80
+//	s := immutable_fragile.NewScore(&score)
+//	for i := 0; i < LoopNum; i++ {
+//		// 取得した値が Immutableではないので値の書き換え可能
+//		// 同期制御も無いので、実行のたびに値が変わる
+//		go func() {
+//			v := s.Value()
+//			time.Sleep(200 * time.Millisecond)
+//			*v += 100
+//			wg.Done()
+//		}()
+//	}
+//	wg.Wait()
+//	// 値が書き換えられてしまう
+//	assert.NotEqual(t, 100, *s.Value())
+//	// 同期制御もないので、10080とも限らない (偶然10080になる場合もある)
+//	assert.NotEqual(t, 10080, *s.Value())
+//	fmt.Printf("Expected: 10080, Actual: %d \n", *s.Value())
+//}
