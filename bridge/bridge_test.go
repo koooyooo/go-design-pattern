@@ -67,13 +67,9 @@ func Test4Patterns(t *testing.T) {
 			expected: `[stdout] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
-			name:   "stdout x yaml",
-			target: stdoutYAML,
-			expected: `[stdout] name: Bridge
-job:
-    name: Bridge Architect
-    title: Manager
-`,
+			name:     "stdout x yaml",
+			target:   stdoutYAML,
+			expected: "[stdout] name: Bridge\njob:\n    name: Bridge Architect\n    title: Manager\n",
 		},
 		{
 			name:     "stderr x json",
@@ -81,13 +77,9 @@ job:
 			expected: `[stderr] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
-			name:   "stderr x yaml",
-			target: stderrYAML,
-			expected: `[stderr] name: Bridge
-job:
-    name: Bridge Architect
-    title: Manager
-`,
+			name:     "stderr x yaml",
+			target:   stderrYAML,
+			expected: "[stderr] name: Bridge\njob:\n    name: Bridge Architect\n    title: Manager\n",
 		},
 	}
 	for _, test := range tests {

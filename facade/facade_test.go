@@ -20,7 +20,9 @@ import (
 )
 
 func TestFacade(t *testing.T) {
+	// Facadeが 15項目のテスト内容を隠蔽してくれるので
 	facade := vehicle.InspectionCompanyFacade{}
+	// 単純な呼び出しで纏めて実行され、正しい操作順・操作方法も保証される
 	errs := facade.CheckAll()
 	assert.Equal(t, 0, len(errs))
 }

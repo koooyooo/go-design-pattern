@@ -3,7 +3,7 @@ package vehicle
 // InspectionCompanyFacade は車検業者によるファサード
 type InspectionCompanyFacade struct{}
 
-//
+// CheckAll は検査の内容を漏れなく想定された順序で行う
 func (icf *InspectionCompanyFacade) CheckAll() []error {
 	var errors []error
 	// 外観と内装の検査
