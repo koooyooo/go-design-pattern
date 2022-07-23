@@ -2,7 +2,7 @@
 // Bridgeの目的はクラス拡張の方向性が2系統あった際、系統同士の組み合わせを可能とすることで、全組み合わせ分の実装準備を回避することです。
 //
 // [概要]
-// 例えばクラスの役割が、ある出力先にあるフォーマットで出力することだとします。
+// 例えばクラスの役割が、任意の出力先に任意のフォーマットで出力する事と仮定します。
 // 可能なら、複数の出力先を選びたいし、複数のフォーマットも選びたい。しかしこれらを継承で用意するには全ての組み合わせ分のサブクラスが必要です。
 // そこで、拡張方向の片系統は通常継承で実現しつつも、拡張方向のもう片系統は別クラスに任せます。これによって2方向の拡張が可能です。
 // しかしこのままだと機能的に統合することができません。そこで、機能統合には継承ではなく委譲を使います。
@@ -28,31 +28,16 @@ import (
 	"github.com/koooyooo/go-design-pattern/bridge/bridge"
 )
 
-// 出力対象の構造体を準備
-var human = bridge.Human{
-	Name: "Bridge",
-	Job: bridge.Job{
-		Name:  "Bridge Architect",
-		Title: "Manager",
-	},
-}
-
-type testcase struct {
-	name     string
-	model    bridge.Human
-	target   *bridge.WritingTarget
-	expected string
-}
-
-func (tc testcase) assert(t *testing.T) {
-	s, err := tc.target.WriteOut(human)
-	if !assert.NoError(t, err) {
-		return
-	}
-	assert.Equal(t, tc.expected, s)
-}
-
 func Test4Patterns(t *testing.T) {
+	// 出力対象の構造体を準備
+	human := bridge.Human{
+		Name: "Bridge",
+		Job: bridge.Job{
+			Name:  "Bridge Architect",
+			Title: "Manager",
+		},
+	}
+
 	// 4系統の組み合わせを用意し、全ての組み合わせで稼働していることを確認
 	stdoutJSON := &bridge.WritingTarget{
 		Write:  bridge.WriteStdout,
@@ -71,7 +56,12 @@ func Test4Patterns(t *testing.T) {
 		Format: bridge.FormatYAML,
 	}
 
-	cases := []testcase{
+	tests := []struct {
+		name     string
+		model    bridge.Human
+		target   *bridge.WritingTarget
+		expected string
+	}{
 		{
 			name:     "stdout x json",
 			model:    human,
@@ -105,9 +95,13 @@ job:
 `,
 		},
 	}
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
-			c.assert(t)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			s, err := test.target.WriteOut(human)
+			if !assert.NoError(t, err) {
+				return
+			}
+			assert.Equal(t, test.expected, s)
 		})
 	}
 }
