@@ -1,15 +1,13 @@
 package composite
 
 import (
-	"fmt"
 	"os"
-	"strings"
 )
 
 type (
 	// Tree は Fileと Dirを抽象化して同一視するためのインターフェイス
 	Tree interface {
-		Open() (string, error)
+		Open() ([]string, error)
 	}
 	treeFile struct {
 		path string
@@ -63,24 +61,24 @@ func newDir(path string) (Tree, error) {
 	}, nil
 }
 
-func (t *treeFile) Open() (string, error) {
+// Open はFile実装では中身を収集する
+func (t *treeFile) Open() ([]string, error) {
 	b, err := os.ReadFile(t.path)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return fmt.Sprintf(`"%s"`, string(b)), nil
+	return []string{string(b)}, nil
 }
 
-func (t *treeDir) Open() (string, error) {
-	var sb strings.Builder
-	sb.WriteString("[")
+// Open はDir実装では配下のメンバに命令を伝搬させる
+func (t *treeDir) Open() ([]string, error) {
+	var contents []string
 	for _, e := range t.entries {
 		s, err := e.Open()
 		if err != nil {
-			return "", err
+			return nil, err
 		}
-		sb.WriteString(s)
+		contents = append(contents, s...)
 	}
-	sb.WriteString("]")
-	return sb.String(), nil
+	return contents, nil
 }

@@ -33,16 +33,25 @@ import (
 	"testing"
 )
 
-// TestComposite ではテストディレクトリに存在するファイルの中身をすべて収集して1つの文字列に結合する過程をテストする。
+// TestComposite ではディレクトリ（testdir）に存在するテキストファイルの中身をすべて収集する過程をテストする。
+//
+// testdir
+// ├── dir1
+// │     └── dir2
+// │         ├── bar.txt
+// │         └── foo.txt
+// ├── hello.txt
+// └── world.txt
+//
 func TestComposite(t *testing.T) {
 	// テストディレクトリに存在するファイルに対するファイルツリーを構築する
 	tree, err := composite.NewTree("./testdir")
 	assert.NoError(t, err)
 
 	// ファイルツリーに対し構造を意識せずシンプルなオープン命令を出す
-	s, err := tree.Open()
+	contents, err := tree.Open()
 	assert.NoError(t, err)
 
-	// 文字列が期待通りか確認する
-	assert.Equal(t, `[[["Bar""Foo"]]"Hello""World"]`, s)
+	// ツリー構造配下のテキストをすべて収集できているか確認する
+	assert.Equal(t, []string{"Bar", "Foo", "Hello", "World"}, contents)
 }
