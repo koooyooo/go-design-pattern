@@ -1,5 +1,7 @@
 # Go Design Pattern
 
+[![build-test](https://github.com/koooyooo/go-design-pattern/actions/workflows/build-test.yml/badge.svg)](https://github.com/koooyooo/go-design-pattern/actions/workflows/build-test.yml)
+
 Goによるデザイン・パターンの解説と実例です。  
 Javaで学んだ デザイン・パターンを Goに適用するとどうなるか試作したものです。  
 
@@ -17,7 +19,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Bridge  | ○    | |
 | | ^ | Composite| ○    | |
 | | ^ | Decorator | ○    | |
-| | ^ | Facade |      | |
+| | ^ | Facade | ⇒    | |
 | | ^ | Flyweight |      | |
 | | ^ | Proxy |      | |
 | | Behavioral | Chain of Responsibility  |      | |
