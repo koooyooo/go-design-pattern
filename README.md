@@ -20,7 +20,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | ^ | Composite| ○    | |
 | | ^ | Decorator | ○    | |
 | | ^ | Facade | ○    | |
-| | ^ | Flyweight |      | |
+| | ^ | Flyweight | ⇒    | |
 | | ^ | Proxy |      | |
 | | Behavioral | Chain of Responsibility  |      | |
 | | ^ | Command|      | |

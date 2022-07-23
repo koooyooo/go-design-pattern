@@ -1,4 +1,4 @@
-package extension
+package model
 
 // Mammal は哺乳類を表現します
 type Mammal struct {
