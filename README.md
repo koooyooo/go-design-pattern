@@ -7,30 +7,30 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 
 ## GoF Pattern
 | # | Type | Name | Done | Description |
-| --- | --- | --- | --- | --- |
-| | Creational | Abstract Factory | ○ | |
-| | ^ | Factory Method | ○ | |
-| | ^ | Builder | ○ | |
-| | ^ | Singleton | ○ | |
-| | ^ | Prototype | ○ | |
-| | Structural |Adapter | ○ | |
-| | ^ | Bridge  | ○ | |
-| | ^ | Composite| ⇒ | |
-| | ^ | Decorator | | |
-| | ^ | Facade | | |
-| | ^ | Flyweight | | |
-| | ^ | Proxy | | |
-| | Behavioral | Chain of Responsibility  | | |
-| | ^ | Command| | |
-| | ^ | Interpreter| | |
-| | ^ | Iterator | | |
-| | ^ | Mediator | | |
-| | ^ | Memento | | |
-| | ^ | Observer | | |
-| | ^ | State | | |
-| | ^ | Strategy | | |
-| | ^ | Template | | |
-| | ^ | Visitor | | |
+| --- | --- | --- |------| --- |
+| | Creational | Abstract Factory | ○    | |
+| | ^ | Factory Method | ○    | |
+| | ^ | Builder | ○    | |
+| | ^ | Singleton | ○    | |
+| | ^ | Prototype | ○    | |
+| | Structural |Adapter | ○    | |
+| | ^ | Bridge  | ○    | |
+| | ^ | Composite| ○    | |
+| | ^ | Decorator |      | |
+| | ^ | Facade |      | |
+| | ^ | Flyweight |      | |
+| | ^ | Proxy |      | |
+| | Behavioral | Chain of Responsibility  |      | |
+| | ^ | Command|      | |
+| | ^ | Interpreter|      | |
+| | ^ | Iterator | ○    | |
+| | ^ | Mediator |      | |
+| | ^ | Memento |      | |
+| | ^ | Observer |      | |
+| | ^ | State |      | |
+| | ^ | Strategy |      | |
+| | ^ | Template |      | |
+| | ^ | Visitor |      | |
 
 ## MultiThread Pattern 
 | # | Type | Name | Done | Description |
