@@ -1,4 +1,4 @@
-name: basic-ci
+name: build-test
 
 on: [push]
 
