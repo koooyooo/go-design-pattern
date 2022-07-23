@@ -39,38 +39,35 @@ func Test4Patterns(t *testing.T) {
 	}
 
 	// 4系統の組み合わせを用意し、全ての組み合わせで稼働していることを確認
-	stdoutJSON := &bridge.WritingTarget{
-		Write:  bridge.WriteStdout,
-		Format: bridge.FormatJSON,
+	stdoutJSON := &bridge.DestinationFormatBridge{
+		Destination: bridge.DestStdout,
+		Format:      bridge.FormatJSON,
 	}
-	stdoutYAML := &bridge.WritingTarget{
-		Write:  bridge.WriteStdout,
-		Format: bridge.FormatYAML,
+	stdoutYAML := &bridge.DestinationFormatBridge{
+		Destination: bridge.DestStdout,
+		Format:      bridge.FormatYAML,
 	}
-	stderrJSON := &bridge.WritingTarget{
-		Write:  bridge.WriteStderr,
-		Format: bridge.FormatJSON,
+	stderrJSON := &bridge.DestinationFormatBridge{
+		Destination: bridge.DestStderr,
+		Format:      bridge.FormatJSON,
 	}
-	stderrYAML := &bridge.WritingTarget{
-		Write:  bridge.WriteStderr,
-		Format: bridge.FormatYAML,
+	stderrYAML := &bridge.DestinationFormatBridge{
+		Destination: bridge.DestStderr,
+		Format:      bridge.FormatYAML,
 	}
 
 	tests := []struct {
 		name     string
-		model    bridge.Human
-		target   *bridge.WritingTarget
+		target   *bridge.DestinationFormatBridge
 		expected string
 	}{
 		{
 			name:     "stdout x json",
-			model:    human,
 			target:   stdoutJSON,
 			expected: `[stdout] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
 			name:   "stdout x yaml",
-			model:  human,
 			target: stdoutYAML,
 			expected: `[stdout] name: Bridge
 job:
@@ -80,13 +77,11 @@ job:
 		},
 		{
 			name:     "stderr x json",
-			model:    human,
 			target:   stderrJSON,
 			expected: `[stderr] {"Name":"Bridge","Job":{"Name":"Bridge Architect","Title":"Manager"}}`,
 		},
 		{
 			name:   "stderr x yaml",
-			model:  human,
 			target: stderrYAML,
 			expected: `[stderr] name: Bridge
 job:

@@ -6,22 +6,37 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var FormatJSON = &writingFormatJSON{}
-var FormatYAML = &writingFormatYAML{}
+var (
+	// FormatJSON はJSON形式で出力するフォーマット
+	FormatJSON Format = &formatJSON{}
 
-type (
-	WritingFormat interface {
-		Marshal(interface{}) ([]byte, error)
-	}
-
-	writingFormatJSON struct{}
-	writingFormatYAML struct{}
+	// FormatYAML はYAML形式で出力するフォーマット
+	FormatYAML Format = &formatYAML{}
 )
 
-func (wj writingFormatJSON) Marshal(v interface{}) ([]byte, error) {
+type (
+	// Format は入出力フォーマットを表すインターフェース
+	Format interface {
+		Marshal(interface{}) ([]byte, error)
+		Unmarshal([]byte, interface{}) error
+	}
+
+	formatJSON struct{}
+	formatYAML struct{}
+)
+
+func (wj formatJSON) Marshal(v any) ([]byte, error) {
 	return json.Marshal(v)
 }
 
-func (wy writingFormatYAML) Marshal(v interface{}) ([]byte, error) {
+func (wj formatJSON) Unmarshal(b []byte, v any) error {
+	return json.Unmarshal(b, v)
+}
+
+func (wy formatYAML) Marshal(v any) ([]byte, error) {
 	return yaml.Marshal(v)
+}
+
+func (wy formatYAML) Unmarshal(b []byte, v any) error {
+	return yaml.Unmarshal(b, v)
 }
