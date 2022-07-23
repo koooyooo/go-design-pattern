@@ -16,7 +16,7 @@ Javaで学んだ デザイン・パターンを Goに適用するとどうなる
 | | Structural |Adapter | ○    | |
 | | ^ | Bridge  | ○    | |
 | | ^ | Composite| ○    | |
-| | ^ | Decorator |      | |
+| | ^ | Decorator | ○    | |
 | | ^ | Facade |      | |
 | | ^ | Flyweight |      | |
 | | ^ | Proxy |      | |
