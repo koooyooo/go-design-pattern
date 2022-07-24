@@ -1,3 +1,9 @@
+// Package flyweight_pattern
+//
+// [目的]
+// Flyweightパターンの目的はインスタンスをプーリングして再利用することで、インスタンスの生成コストを減らすことです。
+// 特に生成に時間やリソースが必要なインスタンスの生成に対し適用される傾向があります。
+//
 package flyweight_pattern
 
 import (
