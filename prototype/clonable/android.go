@@ -7,8 +7,8 @@ type Android struct {
 }
 
 // 自身の複製を生成するメソッド
-func (a Android) Clone() Android {
+func (a *Android) Clone() Android {
 	// Goでは値(非ポインタ)の代入だけでクローン可能
-	b := a
+	b := *a
 	return b
 }
