@@ -17,7 +17,8 @@ Go言語には **継承**が存在せず、類似した機能として **Embed**
 これを解決するためには2種類の実装があります。
 
 ### 1. Override先を 自身の関数の入れ替えで実現 (by delegation)
-TemplateMethodの実装疎結合化を Overrideではなく関数の入れ替えで実現
+
+Embedによる逆転した親子関係で呼び出しが不能になるのが問題なら、呼び出し先を階層化させずに自身の関数にすれば良いという解決策です。関数の更新はサブクラスによるオーバーライドを用いずに、単なる関数の入れ替えで済ませてしまいます。
 
 ```golang
 package xxx
@@ -52,7 +53,8 @@ func NewTemplateA() *Template {
 ```
 
 ### 2. Override先を 内部のinterfaceに纏めて実現 (by extension)
-TemplateMethodの呼び出し先を 自身の関数ではなく移譲先Interfaceの関数で実現
+
+TemplateMethodの呼び出し先の継承関係に問題があるなら、継承ではなく委譲を使って実現しよう。委譲先は入れ替え可能な様に interfaceを定義しておこう。という解決策です。
  
 ```golang
 package yyy
