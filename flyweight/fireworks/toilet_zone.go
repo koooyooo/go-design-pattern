@@ -27,12 +27,14 @@ func NewEventToiletZone() *eventToiletZone {
 	}
 }
 
+// ReadyToilet はトイレを準備する
 func (e *eventToiletZone) ReadyToilet(num int) {
 	for i := 0; i < num; i++ {
 		e.pool.Put(e.pool.New())
 	}
 }
 
+// AssignToilet はトイレを利用する
 func (e *eventToiletZone) AssignToilet() {
 	v, _ := e.pool.Get().(*tmpToilet)
 	v.Use()
