@@ -10,11 +10,11 @@ import (
 func TestInterface(t *testing.T) {
 	impls := []any{
 		&model.InterfaceImpl{},
-		model.InterfaceImplRaw{},
-		&model.InterfaceImplRaw{},
+		model.InterfaceImplVal{},
+		&model.InterfaceImplVal{},
 		&model.InterfaceImplEmbed{},
-		model.InterfaceImplEmbedRaw{},
-		&model.InterfaceImplEmbedRaw{},
+		model.InterfaceImplEmbedVal{},
+		&model.InterfaceImplEmbedVal{},
 	}
 	for _, impl := range impls {
 		var i, ok = impl.(model.Interface)
