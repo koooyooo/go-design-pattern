@@ -33,3 +33,23 @@ func (l *list[T]) Map(f func(t T) T) list[T] {
 	}
 	return result
 }
+
+func (l *list[T]) FoldLeft(zero T, f func(t1, t2 T) T) T {
+	var tmp = zero
+	for _, v := range *l {
+		tmp = f(tmp, v)
+	}
+	return tmp
+}
+
+func (l *list[T]) FoldRight(zero T, f func(t1, t2 T) T) T {
+	return l.Reverse().FoldLeft(zero, f)
+}
+
+func (l *list[T]) Reverse() *list[T] {
+	var tmp = *l
+	for i := 0; i < len(*l)/2; i++ {
+		tmp[i], tmp[len(tmp)-1-i] = tmp[len(tmp)-1-i], tmp[i]
+	}
+	return &tmp
+}

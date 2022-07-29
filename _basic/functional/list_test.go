@@ -42,3 +42,17 @@ func TestMap(t *testing.T) {
 
 	assert.Equal(t, list[int]{2, 4, 6}, doubled)
 }
+
+func TestFold(t *testing.T) {
+	var l list[int] = []int{1, 2, 3}
+	f := func(v1, v2 int) int {
+		return v1 + v2
+	}
+	assert.Equal(t, 6, l.FoldLeft(0, f))
+	assert.Equal(t, 6, l.FoldRight(0, f))
+}
+
+func TestReverse(t *testing.T) {
+	var l list[int] = []int{1, 2, 3}
+	assert.Equal(t, l.Reverse(), &list[int]{3, 2, 1})
+}
