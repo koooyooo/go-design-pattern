@@ -6,14 +6,14 @@ import (
 )
 
 func TestContains(t *testing.T) {
-	var l list[int] = []int{1, 2, 3}
+	var l list[int] = NewList(1, 2, 3)
 
 	assert.True(t, l.Contains(2))
 	assert.False(t, l.Contains(4))
 }
 
 func TestFilter(t *testing.T) {
-	var l list[int] = []int{1, 2, 3}
+	var l list[int] = NewList(1, 2, 3)
 
 	tests := []struct {
 		f    func(i int) bool
@@ -34,7 +34,7 @@ func TestFilter(t *testing.T) {
 }
 
 func TestMap(t *testing.T) {
-	var l list[int] = []int{1, 2, 3}
+	var l list[int] = NewList(1, 2, 3)
 
 	var doubled = l.Map(func(i int) int {
 		return i * 2
@@ -44,7 +44,7 @@ func TestMap(t *testing.T) {
 }
 
 func TestFold(t *testing.T) {
-	var l list[int] = []int{1, 2, 3}
+	var l list[int] = NewList(1, 2, 3)
 	f := func(v1, v2 int) int {
 		return v1 + v2
 	}
@@ -53,6 +53,6 @@ func TestFold(t *testing.T) {
 }
 
 func TestReverse(t *testing.T) {
-	var l list[int] = []int{1, 2, 3}
+	var l list[int] = NewList(1, 2, 3)
 	assert.Equal(t, l.Reverse(), &list[int]{3, 2, 1})
 }
