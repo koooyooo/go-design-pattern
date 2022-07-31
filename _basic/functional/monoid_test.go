@@ -1,6 +1,7 @@
 package functional
 
 import (
+	"github.com/koooyooo/go-design-pattern/_basic/functional/collection"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -24,7 +25,7 @@ func TestIntPlusMonoid(t *testing.T) {
 }
 
 func TestListMonoid(t *testing.T) {
-	var l list[int]
-	l = listMonoid[int]().FoldRight(list[list[int]]{{1, 2, 3}, {4, 5, 6}})
-	assert.Equal(t, list[int]{1, 2, 3, 4, 5, 6}, l)
+	var l collection.List[int]
+	l = listMonoid[int]().FoldRight(collection.List[collection.List[int]]{{1, 2, 3}, {4, 5, 6}})
+	assert.Equal(t, collection.List[int]{1, 2, 3, 4, 5, 6}, l)
 }

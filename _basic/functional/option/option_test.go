@@ -1,4 +1,4 @@
-package functional
+package option
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -13,7 +13,7 @@ func TestGet(t *testing.T) {
 	assert.False(t, o.IsEmpty())
 	v, ok := o.Get()
 	assert.True(t, ok)
-	assert.Equal(t, 1, *v)
+	assert.Equal(t, 1, v)
 	assert.Equal(t, 1, o.GetOrElse(2))
 
 	// None
